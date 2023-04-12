@@ -6,6 +6,7 @@ metadata:
     {{- include "service-2-grpc-server.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
+  externalName: {{ include "service-2-grpc-server.fullname" . }}.default.svc.cluster.local
   ports:
     - port: {{ .Values.service.port }}
       targetPort: http

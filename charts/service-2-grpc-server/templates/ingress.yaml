@@ -17,6 +17,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
+    tier: backend
     {{- include "service-2-grpc-server.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:

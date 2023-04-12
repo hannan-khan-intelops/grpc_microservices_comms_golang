@@ -5,14 +5,14 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: hannankhanintelops/service-2-grpc-server
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "service-2-grpc-server"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -38,10 +38,10 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 4317
 
 ingress:
-  enabled: false
+  enabled: true
   className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
