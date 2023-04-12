@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package microserviceComms;
+
+message microserviceCommsRequest {
+	string col_name = 1;
+}
+
+message microserviceCommsACK {
+	string df = 1;
+}
+
+// handles the microservice request and gives and acknowledgement as a response.
+service Handler {
+	rpc HandleRequest (microserviceCommsRequest) returns (microserviceCommsACK) {}
+}
