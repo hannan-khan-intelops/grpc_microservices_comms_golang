@@ -9,7 +9,7 @@ spec:
   externalName: {{ include "service-2-grpc-server.fullname" . }}.default.svc.cluster.local
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: 4317
       protocol: TCP
       name: http
   selector:
