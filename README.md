@@ -41,7 +41,7 @@ Here are the steps in order:
    This will create a helm chart for easy deployment/maintenance on Kubernetes.
 5. Within the helm chart, navigate to following files, and make the following changes:
     * `values.yaml`
-        * Change the image's repository name to the name and tag to the one you pushed to.
+        * Change the image's repository name to the `name` and `tag` to the one you pushed to.
         * Update the `fullnameOverride` to whatever you wish.
         * Update the `service.port` to the port you will use.
         * Set `ingress.enabled` to true.
