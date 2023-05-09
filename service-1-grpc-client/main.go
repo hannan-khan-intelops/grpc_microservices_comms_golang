@@ -6,6 +6,7 @@
 
 // This script is the client portion of the grpc microservice. The client will initiate streaming, and the server will
 // stream its data (multiple responses) to the client.
+// Tutorial src: https://www.freecodecamp.org/news/grpc-server-side-streaming-with-go/
 
 package service_1_grpc_client
 
