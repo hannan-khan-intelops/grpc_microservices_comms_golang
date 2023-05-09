@@ -17,7 +17,7 @@ python -m grpc_tools.protoc --version
 Compiling a proto file:
 
 ```shell
-python -m grpc_tools.protoc --proto_path=proto --python_out=microservice_comms --grpc_python_out=microservice_comms proto/microservice_comms.proto
+python -m grpc_tools.protoc --proto_path=proto --python_out=microservice_comms --grpc_python_out=microservice_comms proto/microservice.proto
 ```
 
 ## Values to change in the helm chart + quick tutorial on deploying a microservice via helm.
