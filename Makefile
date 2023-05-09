@@ -6,14 +6,19 @@ uninstall_helm:
 	helm uninstall service-1-grpc-client
 	helm uninstall service-2-grpc-server
 
+define update_client
+	cd $(1) && rm -f go.mod go.sum && \
+	go mod init example.com/$(strip $(1)) && \
+	go mod edit --replace example.com/microservice=../microservice && \
+	go get example.com/microservice && \
+	go mod tidy
+endef
+
 generate_go_proto:
 	mkdir -p microservice
 	protoc --go-grpc_out=. --go_out=. proto/microservice.proto
 	cd microservice && rm -f go.mod go.sum && go mod init example.com/microservice && go get -u && go mod tidy
-	cd service-1-grpc-client && rm -f go.mod go.sum && \
-	go mod init example.com/service-1-grpc-client && \
-	go mod edit --replace example.com/microservice=../microservice && \
-	go get example.com/microservice && \
-	go mod tidy
+	@$(call update_client, "service-1-grpc-client")
+	@$(call update_client, "service-2-grpc-server")
 
 reinstall: uninstall_helm install_helm
