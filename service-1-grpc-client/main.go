@@ -8,9 +8,10 @@
 // stream its data (multiple responses) to the client.
 // Tutorial src: https://www.freecodecamp.org/news/grpc-server-side-streaming-with-go/
 
-package service_1_grpc_client
+package main
 
 import (
+	"context"
 	pb "example.com/microservice"
 	"google.golang.org/grpc"
 	"io"
@@ -26,8 +27,8 @@ func main() {
 
 	// create the stream
 	client := pb.NewStreamServiceClient(conn)
-	in := &pb.Request{id: 1}
-	stream, err := client.FetchResponse()
+	in := &pb.Request{Id: 1}
+	stream, err := client.FetchResponse(context.Background(), in)
 	if err != nil {
 		log.Fatalf("Open stream error %v", err)
 	}

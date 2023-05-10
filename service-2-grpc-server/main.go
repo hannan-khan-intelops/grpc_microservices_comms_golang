@@ -8,7 +8,7 @@
 // stream its data (multiple responses) to the client.
 // Tutorial src: https://www.freecodecamp.org/news/grpc-server-side-streaming-with-go/
 
-package service_2_grpc_server
+package main
 
 import (
 	pb "example.com/microservice"
@@ -20,11 +20,13 @@ import (
 	"time"
 )
 
-type server struct{}
+type server struct {
+	pb.UnimplementedStreamServiceServer
+}
 
 func (s server) FetchResponse(in *pb.Request, srv pb.StreamService_FetchResponseServer) error {
 
-	log.Printf("Fetch response for response.id: %d", id)
+	log.Printf("Fetch response for response.id: %d", in.Id)
 
 	// we will be using a waitGroup in order to allow the process to be concurrent.
 	var wg sync.WaitGroup
@@ -45,6 +47,8 @@ func (s server) FetchResponse(in *pb.Request, srv pb.StreamService_FetchResponse
 	wg.Wait()
 	return nil
 }
+
+//func (s server) mustEmbedUnimplementedStreamServiceServer() {}
 
 func main() {
 	// create a listener
