@@ -18,9 +18,13 @@ import (
 	"log"
 )
 
+const (
+	serverAddress = "localhost:50005"
+)
+
 func main() {
 	// dail the server
-	conn, err := grpc.Dial(":50005", grpc.WithInsecure())
+	conn, err := grpc.Dial(serverAddress, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Cannot connect with server %v", err)
 	}

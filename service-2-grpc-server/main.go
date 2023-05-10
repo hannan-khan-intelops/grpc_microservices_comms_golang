@@ -24,6 +24,10 @@ type server struct {
 	pb.UnimplementedStreamServiceServer
 }
 
+const (
+	serverAddress = "localhost:50005"
+)
+
 func (s server) FetchResponse(in *pb.Request, srv pb.StreamService_FetchResponseServer) error {
 
 	log.Printf("Fetch response for response.id: %d", in.Id)
@@ -52,7 +56,7 @@ func (s server) FetchResponse(in *pb.Request, srv pb.StreamService_FetchResponse
 
 func main() {
 	// create a listener
-	lis, err := net.Listen("tcp", ":50005")
+	lis, err := net.Listen("tcp", serverAddress)
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
@@ -61,7 +65,7 @@ func main() {
 	s := grpc.NewServer()
 	pb.RegisterStreamServiceServer(s, server{})
 
-	log.Println("Starting server")
+	log.Printf("Starting server at: %v\n", serverAddress)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}
