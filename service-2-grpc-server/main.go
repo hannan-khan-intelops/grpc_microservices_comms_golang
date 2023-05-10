@@ -82,6 +82,7 @@ func main() {
 	pb.RegisterStreamServiceServer(s, server{})
 
 	log.Printf("Starting server at: %v\n", serverAddress)
+	// start listening via the server
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}
