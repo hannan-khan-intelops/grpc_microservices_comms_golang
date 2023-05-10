@@ -21,4 +21,14 @@ generate_go_proto:
 	@$(call update_client, "service-1-grpc-client")
 	@$(call update_client, "service-2-grpc-server")
 
+build_images:
+	cd service-1-grpc-client && docker build -t hannankhanintelops/service-1-grpc-client-image .
+	cd service-2-grpc-server && docker build -t hannankhanintelops/service-2-grpc-server-image .
+
+run_images:
+	cd service-1-grpc-client && docker run -t service-1-grpc-client-container --network=host hannankhanintelops/service-1-grpc-client-image
+	cd service-2-grpc-server && docker run -t service-2-grpc-server-container --network=host hannankhanintelops/service-2-grpc-server-image
+
+serve_docker_locally: build_images run_images
+
 reinstall: uninstall_helm install_helm
