@@ -8,8 +8,10 @@
 // stream its data (multiple responses) to the client.
 // Tutorial src: https://www.freecodecamp.org/news/grpc-server-side-streaming-with-go/
 
+// package has to be main in order for this to run as a standalone script.
 package main
 
+// import required modules, including the microservice module we have created using the proto generated code.
 import (
 	"context"
 	pb "example.com/microservice"
@@ -18,27 +20,37 @@ import (
 	"log"
 )
 
+// add a constant for the server address.
 const (
 	serverAddress = "localhost:50005"
 )
 
+// the main entry point for this script. Also required to run as a standalone script.
 func main() {
-	// dail the server
+	// dail the server, and create a connection object.
 	conn, err := grpc.Dial(serverAddress, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Cannot connect with server %v", err)
 	}
 
-	// create the stream
+	// create the client object
 	client := pb.NewStreamServiceClient(conn)
+	// create the request object. This request will be giving us the data from the stream (i.e. telling the stream to
+	// start)
 	in := &pb.Request{Id: 1}
+	// create the stream by calling the FetchResponse function. This will start the streaming, as soon as the server
+	// responds.
 	stream, err := client.FetchResponse(context.Background(), in)
 	if err != nil {
 		log.Fatalf("Open stream error %v", err)
 	}
 
+	// note that this channel is not like make(chan bool, 1) because this is an unbuffered channel. This means that the
+	// reads and writes to/from this channel are blocking. This is extremely helpful when dealing with routines. This is
+	// why we will use this type of channel to create a done signal to indicate to the routines that we are done.
 	done := make(chan bool)
 
+	// We create a go routine to run functions synchronously.
 	go func() {
 		for {
 			resp, err := stream.Recv()
